@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Phishing Boat</h1>
+<h2>Upload an email for analysis</h2>
+<form method=post enctype=multipart/form-data> <input type=file name=file>
+    <i style="color:red">Allowed types: .eml, .msg, .txt</i>
+    <br />
+    <input type=submit value=Upload>
+</form>
+<br>
+<h2>Files</h2>
+{{ files|safe }}
+{% endblock %}
