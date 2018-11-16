@@ -2,6 +2,9 @@ FROM python:3
 LABEL Maintainer="Pat Heaney <s3cpat@psu.edu>" Description="Automated Analysis of a Phishing Email" Version="1.0"
 WORKDIR /usr/src/app
 
+RUN apt-get update && apt-get install -y \
+    libemail-outlook-message-perl
+
 RUN mkdir uploads
 
 COPY src/ .

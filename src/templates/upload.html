@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Upload | Phishing Boat
+{% endblock %}
+
 {% block content %}
 <h1>Phishing Boat</h1>
 <h2>Upload an email for analysis</h2>
 <form method=post enctype=multipart/form-data> <input type=file name=file>
-    <i style="color:red">Allowed types: .eml, .msg, .txt</i>
+    <i style="color:red">Allowed types: .eml, .msg (Outlook MSG files will be converted to EML)</i>
     <br />
     <input type=submit value=Upload>
 </form>
