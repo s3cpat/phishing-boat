@@ -5,6 +5,16 @@ import subprocess
 import os
 cwd = os.getcwd()
 
+import re
+
+def get_urls(body):
+    urls = re.findall(r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', body)
+    defanged = []
+    for url in urls:
+        defanged.append(url.replace("https://","hxxps://").replace("http://","hxxp://"))
+    return defanged
+
+
 def json_serial(obj):
     if isinstance(obj, datetime.datetime):
         serial = obj.isoformat()
@@ -21,6 +31,12 @@ def dumpemail(eml):
     subj = str(subj)
     frm = parsed_eml.get("header").get("from")
     frm = str(frm)
+    to = parsed_eml.get("header").get("to")
+    to = str(to)
+    rcvd = parsed_eml.get("header").get("received")[len(parsed_eml.get("header").get("received"))-1]
+    rcvd = str(rcvd)
+    urls = get_urls(str(parsed_eml.get("body")))
+    urls = str(urls)
 
     details = "<table class='table'>"
 
@@ -33,12 +49,27 @@ def dumpemail(eml):
     details+="<td>From</td>"
     details+="<td>"+frm+"</td>"
     details+="</tr>"
+
+    details+="<tr>"
+    details+="<td>To</td>"
+    details+="<td>"+to+"</td>"
+    details+="</tr>"
+
+    details+="<tr>"
+    details+="<td>Sender Information (from 'Received' Headers)</td>"
+    details+="<td><code>"+rcvd+"</code></td>"
+    details+="</tr>"
+
+    details+="<tr>"
+    details+="<td>URLs</td>"
+    details+="<td>"+urls+"</td>"
+    details+="</tr>"
     
     details+="</table>"
 
     # tmp debug
 
-    # details+="<br><br>"+str(parsed_eml.get("header"))
+    #details+="<br><br>"+str(parsed_eml)
 
     #return (json.dumps(parsed_eml, default=json_serial))
     return details
