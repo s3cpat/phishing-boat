@@ -1,0 +1,22 @@
+# Site settings
+title: Phishing Boat
+email: s3cpat@psu.edu
+url: https://phishingboat.club
+description: "Phishing Boat is an email analysis tool, using Python and Docker."
+
+# Color settings (hex-codes without the leading hash-tag)
+color:
+  primary-dark: '#000000'
+  links: '#219ab3'
+
+# Footer settings
+footer: Phishing Boat
+
+# Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
+social:
+  - title: github
+    url: https://github.com/s3cpat/phishing-boat
+
+# Build settings
+markdown: kramdown
+permalink: pretty
