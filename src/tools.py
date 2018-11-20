@@ -5,10 +5,27 @@ import json
 import os
 import re
 import subprocess
+from virus_total_apis import PublicApi as vtapi
+from virus_total_apis import PrivateApi as vtapi_priv
 
 import eml_parser
 
 cwd = os.getcwd()
+
+API_KEY = 'Sign-Up for API Key at virustotal.com'
+
+PUBLICAPI=True
+
+try:
+    API_KEY = os.environ["VT_API_KEY"]
+except Exception as apikeyproblem:
+    pass
+
+try:
+    API_KEY = os.environ["VT_PRIV_API_KEY"]
+    PUBLICAPI=False
+except Exception as apikeyproblem:
+    pass
 
 with open("URL_WHITELIST.txt","r") as f:
     whitelist = [line.rstrip('\n') for line in f]
@@ -23,6 +40,18 @@ def get_urls(body):
             defanged.append(url.replace("https://","hxxps://").replace("http://","hxxp://"))
     defanged = set(defanged)
     return defanged
+
+def get_vt_url_score(url):
+    if(API_KEY == 'Sign-Up for API Key at virustotal.com'):
+        return "No API Key Specified.  Specify as environment variable \"VT_API_KEY\" when running dockerfile"
+    else:
+        retstr = ""
+        vt = vtapi(API_KEY)
+        response = vt.get_url_report(url)
+        results = json.dumps(response)
+        retstr+="("+str(type(results))+")"
+        #return json.dumps(response, sort_keys=False)
+        return retstr
 
 
 def json_serial(obj):
@@ -80,7 +109,10 @@ def dumpemail(eml):
         for url in urls:
             urltable+="<tr>"
             urltable+="<td>"+str(url)+"</td>"
-            urltable+="<td>Not Yet Implemented.</td>"
+            if(len(urls)<=4 or PUBLICAPI is False):
+                urltable+="<td>"+str(get_vt_url_score(url))+"</td>"
+            else:
+                urltable+="<td>Public API only allows for 4 requests per minute</td>"
             urltable+="</tr>"
         urltable+="</table>"
     else:

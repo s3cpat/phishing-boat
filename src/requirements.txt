@@ -3,3 +3,4 @@ requests
 Flask
 eml_parser
 mail-parser
+virustotal-api
