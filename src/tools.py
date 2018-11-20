@@ -69,7 +69,7 @@ def dumpemail(eml):
 
     # tmp debug
 
-    #details+="<br><br>"+str(parsed_eml)
+    details+="<br><br>"+str(parsed_eml.items())
 
     #return (json.dumps(parsed_eml, default=json_serial))
     return details
