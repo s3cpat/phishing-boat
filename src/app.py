@@ -58,7 +58,7 @@ def analysis(filename):
             headers_str+=str(dumpemail(UPLOAD_FOLDER+'/'+filename))
         return render_template('analysis.html',filename=filename, headers=headers_str)
     except Exception as e:
-        return(render_template('analysis.html',filename=filename,headers="Sorry, something's gone wrong!<br>"+str(e.with_traceback)))
+        return(render_template('analysis.html',filename=filename,headers="Sorry, something's gone wrong!<br>"+str(e)))
 
 @app.route('/')
 def index():
