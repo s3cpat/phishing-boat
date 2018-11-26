@@ -1,1 +1,3 @@
 https://na01.safelinks.protection.outlook.com
+http://schemas.microsoft.com
+http://www.w3.org

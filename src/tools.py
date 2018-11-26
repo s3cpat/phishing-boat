@@ -49,7 +49,11 @@ def get_vt_url_score(url):
         vt = vtapi(API_KEY)
         response = vt.get_url_report(url)
         results = json.dumps(response)
-        retstr+="("+str(type(results))+")"
+        if(response['results']['response_code']==1):
+            retstr+=""+str(response['results']['positives'])+"/"+str(response['results']['total'])+\
+            " engines on VirusTotal have detected this."
+        else:
+            retstr+=str("error")
         #return json.dumps(response, sort_keys=False)
         return retstr
 
@@ -103,7 +107,7 @@ def dumpemail(eml):
         #urls = str(urls)
         urltable+="<table>"
         urltable+="<tr>"
-        urltable+="<td>URL</td>"
+        urltable+="<td>Defanged URL</td>"
         urltable+="<td>VT Score</td>"
         urltable+="</tr>"
         for url in urls:
